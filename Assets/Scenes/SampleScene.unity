@@ -228,6 +228,8 @@ GameObject:
   - component: {fileID: 648182870}
   - component: {fileID: 648182869}
   - component: {fileID: 648182871}
+  - component: {fileID: 648182872}
+  - component: {fileID: 648182873}
   m_Layer: 7
   m_Name: Slime
   m_TagString: Untagged
@@ -387,12 +389,74 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 938586b8f19fe9f489f4086d4b25f94d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slimeMoveAction:
+    m_Name: Slime Move
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: cc02a08c-aad0-4826-b8b4-c5a2faa510ed
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
   moveForce: 10
   jumpForce: 20
   maxMoveSpeed: 10
   slimeRigidbody: {fileID: 0}
   slimeCollider: {fileID: 0}
+  slimeAnimator: {fileID: 0}
+  slimeSpriteRenderer: {fileID: 0}
   groundDetector: {fileID: 0}
+--- !u!95 &648182872
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648182863}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ee68d8c80af7eb843ad1a32ee2420479, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &648182873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648182863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: e9df31613f626624faf81cb2b8f4ceaf, type: 3}
+  m_NotificationBehavior: 3
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: PC
+  m_DefaultActionMap: SlimeControls
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &705873437
 GameObject:
   m_ObjectHideFlags: 0
