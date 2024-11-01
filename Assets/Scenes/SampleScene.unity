@@ -302,7 +302,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 705873438}
+  - {fileID: 1427946245}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &648182869
@@ -389,23 +389,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 938586b8f19fe9f489f4086d4b25f94d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slimeMoveAction:
-    m_Name: Slime Move
+  moveInput:
+    m_Name: Move Input
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: cc02a08c-aad0-4826-b8b4-c5a2faa510ed
+    m_Id: 9ba288e5-8318-4c24-ac44-dd3b92bbfbba
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  jumpInput:
+    m_Name: Jump Input
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 59c1ea90-4d7e-4669-8d41-5e2aa6aec506
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
   moveForce: 10
-  jumpForce: 20
+  jumpCoefficient: 25
+  maxJumpForce: 40
+  minJumpForce: 10
   maxMoveSpeed: 10
+  platformLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  groundChecker: {fileID: 1427946245}
+  groundCheckRadius: 0.1
   slimeRigidbody: {fileID: 0}
   slimeCollider: {fileID: 0}
-  slimeAnimator: {fileID: 0}
   slimeSpriteRenderer: {fileID: 0}
-  groundDetector: {fileID: 0}
 --- !u!95 &648182872
 Animator:
   serializedVersion: 5
@@ -457,7 +471,7 @@ MonoBehaviour:
   m_DefaultActionMap: SlimeControls
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!1 &705873437
+--- !u!1 &1427946244
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -465,24 +479,24 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 705873438}
+  - component: {fileID: 1427946245}
   m_Layer: 7
-  m_Name: GroundDetector
+  m_Name: groundChecker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &705873438
+--- !u!4 &1427946245
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 705873437}
+  m_GameObject: {fileID: 1427946244}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.001, y: -0.5, z: 0}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
