@@ -8,7 +8,7 @@ namespace Character
         public SpriteRenderer SpRenderer { get; set; }
         
         public float MoveForce { get; set; }
-        public  float MaxMoveSpeed { get; set; }
+        public float MaxMoveSpeed { get; set; }
         public float JumpCoefficient { get; set; }
         public float MinJumpForce { get; set; }
         public float MaxJumpForce { get; set; }

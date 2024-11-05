@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Character.Slime.Controller
 {
@@ -45,7 +44,7 @@ namespace Character.Slime.Controller
             _inputHandler.Enable();
             _inputHandler.MoveEvents += _inputHandler.Movements.Move;
             _inputHandler.JumpEvents += _inputHandler.Movements.DoubleJump;
-            _inputHandler.JumpEvents += _inputHandler.Movements.Jump;
+            _inputHandler.JumpEvents += _inputHandler.Movements.ChargeJump;
         }
 
         public void OnDisable()

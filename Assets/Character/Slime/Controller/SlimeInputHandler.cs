@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 namespace Character.Slime.Controller
 {
-    public class SlimeInputHandler : SlimeActions
+    public sealed class SlimeInputHandler : SlimeActions
     {
         public SlimeMovements Movements { get; private set; }
         public Vector2 CurrentMoveVector { get; private set; }
@@ -20,6 +20,8 @@ namespace Character.Slime.Controller
         {
             Movements = new SlimeMovements(physics);
             _spriteRenderer = physics.SpRenderer;
+            
+            JumpStartedTime = 0;
             
             var moveInput = this.SlimeControls.Move;
             var jumpInput = this.SlimeControls.Jump;
@@ -45,17 +47,17 @@ namespace Character.Slime.Controller
         private void OnJumpPerformed(InputAction.CallbackContext _)
         {
             JumpStartedTime = Time.time;
-            RunJumpEvents();
+            JumpEvents?.Invoke(SlimeMovements.ChargeJumpDecisionConst);
         }
 
         private void OnJumpCanceled(InputAction.CallbackContext _)
         {
             JumpCanceledTime = Time.time;
-            RunJumpEvents();
+            JumpEvents?.Invoke(JumpStartedTime);
         }
         
-        public virtual void RunJumpEvents() => JumpEvents?.Invoke(JumpStartedTime);
+        public void RunJumpEvents() => JumpEvents?.Invoke(JumpStartedTime);
 
-        public virtual void RunMoveEvents() => MoveEvents?.Invoke(CurrentMoveVector);
+        public void RunMoveEvents() => MoveEvents?.Invoke(CurrentMoveVector);
     }
 }
