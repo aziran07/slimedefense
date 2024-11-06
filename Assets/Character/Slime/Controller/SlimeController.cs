@@ -54,7 +54,7 @@ namespace Character.Slime.Controller
 
         public void FixedUpdate()
         {
-            _inputHandler.RunMoveEvents();
+            _inputHandler.RunMoveEvents(_inputHandler.CurrentMoveVector);
         }
     }
 }

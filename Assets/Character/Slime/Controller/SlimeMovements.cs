@@ -2,13 +2,16 @@ using UnityEngine;
 
 namespace Character.Slime.Controller
 {
-    public class SlimeMovements : CharacterMovements
+    public sealed class SlimeMovements : CharacterMovements
     {
         private SlimePhysics _slimePhysics;
         
         public const float ChargeJumpDecisionConst = -0.1f;
+
+        private bool _canDoubleJump;
         
-        public bool canDoubleJump { get; private set; }
+        // ReSharper disable once CompareOfFloatsByEqualityOperator
+        private static bool CallByJumpPerformed(float decisionNum) => decisionNum == ChargeJumpDecisionConst;
         public SlimeMovements(SlimePhysics slimePhysics)
         {
             _slimePhysics = slimePhysics;
@@ -23,16 +26,15 @@ namespace Character.Slime.Controller
         public override void Jump(float _)
         {
             if (!_slimePhysics.IsGrounded) return;
-            canDoubleJump = true;
+            _canDoubleJump = true;
             _slimePhysics.Rbody.AddForce(Vector2.up * _slimePhysics.MinJumpForce, ForceMode2D.Impulse);
             Debug.Log($"NormalJumped, JumpForce = {_slimePhysics.MinJumpForce}");
         }
 
         public void ChargeJump(float startTime)
         {
-            // ReSharper disable once CompareOfFloatsByEqualityOperator
-            if (!_slimePhysics.IsGrounded || startTime == ChargeJumpDecisionConst) return;
-            canDoubleJump = true;
+            if (!_slimePhysics.IsGrounded || CallByJumpPerformed(startTime)) return;
+            _canDoubleJump = true;
             var holdTime = Time.time - startTime;
             var holdForce = holdTime * _slimePhysics.JumpCoefficient;
             var jumpF = Mathf.Clamp(holdForce, _slimePhysics.MinJumpForce, _slimePhysics.MaxJumpForce);
@@ -40,11 +42,10 @@ namespace Character.Slime.Controller
             Debug.Log($"ChargedJumped, JumpForce = {jumpF}");
         }
 
-        public void DoubleJump(float decisionConst)
+        public void DoubleJump(float decisionNum)
         {
-            // ReSharper disable once CompareOfFloatsByEqualityOperator
-            if (_slimePhysics.IsGrounded || !canDoubleJump || decisionConst != ChargeJumpDecisionConst) return;
-            canDoubleJump = false;
+            if (_slimePhysics.IsGrounded || !_canDoubleJump || !CallByJumpPerformed(decisionNum)) return;
+            _canDoubleJump = false;
             _slimePhysics.Rbody.velocity = new Vector2(_slimePhysics.Rbody.velocity.x, 0);
             _slimePhysics.Rbody.AddForce(Vector2.up * _slimePhysics.MinJumpForce, ForceMode2D.Impulse);
             Debug.Log($"DoubleJumped, JumpForce = {_slimePhysics.MinJumpForce}");

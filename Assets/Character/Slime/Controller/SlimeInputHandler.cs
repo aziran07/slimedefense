@@ -56,8 +56,8 @@ namespace Character.Slime.Controller
             JumpEvents?.Invoke(JumpStartedTime);
         }
         
-        public void RunJumpEvents() => JumpEvents?.Invoke(JumpStartedTime);
+        public void RunJumpEvents(float jumpParameter) => JumpEvents?.Invoke(jumpParameter);
 
-        public void RunMoveEvents() => MoveEvents?.Invoke(CurrentMoveVector);
+        public void RunMoveEvents(Vector2 inputVector) => MoveEvents?.Invoke(inputVector);
     }
 }
