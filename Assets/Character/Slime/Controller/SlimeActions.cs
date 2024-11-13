@@ -43,7 +43,16 @@ public partial class @SlimeActions: IInputActionCollection2, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": true
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Charge"",
+                    ""type"": ""Button"",
+                    ""id"": ""19249cb1-06ee-4d7b-ac90-e8e168cf5b09"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -167,6 +176,17 @@ public partial class @SlimeActions: IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f0a233fa-78d4-4310-bce5-54d8ea8b8aaa"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""Charge"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -183,6 +203,7 @@ public partial class @SlimeActions: IInputActionCollection2, IDisposable
         m_SlimeControls = asset.FindActionMap("SlimeControls", throwIfNotFound: true);
         m_SlimeControls_Move = m_SlimeControls.FindAction("Move", throwIfNotFound: true);
         m_SlimeControls_Jump = m_SlimeControls.FindAction("Jump", throwIfNotFound: true);
+        m_SlimeControls_Charge = m_SlimeControls.FindAction("Charge", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -246,12 +267,14 @@ public partial class @SlimeActions: IInputActionCollection2, IDisposable
     private List<ISlimeControlsActions> m_SlimeControlsActionsCallbackInterfaces = new List<ISlimeControlsActions>();
     private readonly InputAction m_SlimeControls_Move;
     private readonly InputAction m_SlimeControls_Jump;
+    private readonly InputAction m_SlimeControls_Charge;
     public struct SlimeControlsActions
     {
         private @SlimeActions m_Wrapper;
         public SlimeControlsActions(@SlimeActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_SlimeControls_Move;
         public InputAction @Jump => m_Wrapper.m_SlimeControls_Jump;
+        public InputAction @Charge => m_Wrapper.m_SlimeControls_Charge;
         public InputActionMap Get() { return m_Wrapper.m_SlimeControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -267,6 +290,9 @@ public partial class @SlimeActions: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @Charge.started += instance.OnCharge;
+            @Charge.performed += instance.OnCharge;
+            @Charge.canceled += instance.OnCharge;
         }
 
         private void UnregisterCallbacks(ISlimeControlsActions instance)
@@ -277,6 +303,9 @@ public partial class @SlimeActions: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @Charge.started -= instance.OnCharge;
+            @Charge.performed -= instance.OnCharge;
+            @Charge.canceled -= instance.OnCharge;
         }
 
         public void RemoveCallbacks(ISlimeControlsActions instance)
@@ -307,5 +336,6 @@ public partial class @SlimeActions: IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnCharge(InputAction.CallbackContext context);
     }
 }

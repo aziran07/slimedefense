@@ -3,13 +3,14 @@ using UnityEngine.InputSystem;
 
 namespace Character.Slime.Controller
 {
-    public sealed class SlimeInputHandler : SlimeActions
+    public sealed class SlimeInputHandler
     {
+        private SlimeActions _slimeActions;
         public SlimeMovements Movements { get; private set; }
         public Vector2 CurrentMoveVector { get; private set; }
         
-        public float JumpStartedTime { get; private set; }
-        public float JumpCanceledTime { get; private set; }
+        public float ChargeStartedTime { get; private set; }
+        public bool OnCharge { get; private set; }
         
         public event System.Action<Vector2> MoveEvents;
         public event System.Action<float> JumpEvents;
@@ -19,18 +20,24 @@ namespace Character.Slime.Controller
         public SlimeInputHandler(SlimePhysics physics)
         {
             Movements = new SlimeMovements(physics);
+            _slimeActions = new SlimeActions();
+            
             _spriteRenderer = physics.SpRenderer;
             
-            JumpStartedTime = 0;
-            
-            var moveInput = this.SlimeControls.Move;
-            var jumpInput = this.SlimeControls.Jump;
+            ChargeStartedTime = 0;
+
+            var moveInput = _slimeActions.SlimeControls.Move;
+            var jumpInput = _slimeActions.SlimeControls.Jump;
+            var chargeInput = _slimeActions.SlimeControls.Charge;
 
             moveInput.performed += OnMovePerformed;
             moveInput.canceled += OnMoveCanceled;
             
             jumpInput.performed += OnJumpPerformed;
             jumpInput.canceled += OnJumpCanceled;
+            
+            chargeInput.performed += OnChargePerformed;
+            chargeInput.canceled += OnChargeCanceled;
         }
 
         private void OnMovePerformed(InputAction.CallbackContext context)
@@ -46,18 +53,30 @@ namespace Character.Slime.Controller
 
         private void OnJumpPerformed(InputAction.CallbackContext _)
         {
-            JumpStartedTime = Time.time;
-            JumpEvents?.Invoke(SlimeMovements.ChargeJumpDecisionConst);
+            JumpEvents?.Invoke(OnCharge?ChargeStartedTime:Time.time);
         }
 
         private void OnJumpCanceled(InputAction.CallbackContext _)
         {
-            JumpCanceledTime = Time.time;
-            JumpEvents?.Invoke(JumpStartedTime);
+        }
+
+        private void OnChargePerformed(InputAction.CallbackContext _)
+        {
+            ChargeStartedTime = Time.time;
+            OnCharge = true;
+        }
+
+        private void OnChargeCanceled(InputAction.CallbackContext _)
+        {
+            OnCharge = false;
         }
         
         public void RunJumpEvents(float jumpParameter) => JumpEvents?.Invoke(jumpParameter);
 
         public void RunMoveEvents(Vector2 inputVector) => MoveEvents?.Invoke(inputVector);
+        
+        public void Enable() => _slimeActions.Enable();
+
+        public void Disable() => _slimeActions.Disable();
     }
 }
