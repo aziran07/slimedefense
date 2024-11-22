@@ -7,21 +7,27 @@ namespace Character.Slime.Controller
         private SlimeInputHandler _inputHandler;
         private SlimeMovements _movements;
 
+        [Header("MoveSettings")]
         [SerializeField] private float moveForce;
         [SerializeField] private float maxMoveSpeed;
         
+        [Header("JumpSettings")]
         [SerializeField] private float jumpCoefficient;
         [SerializeField] private float minJumpForce;
         [SerializeField] private float maxJumpForce;
         
+        [Header("GroundCheckSettings")]
+        private const float GroundCheckDistance = 0.1f;
         [SerializeField] private Transform groundChecker;
-        private const float GroundCheckRadius = 0.1f;
         [SerializeField] private LayerMask groundLayer;
 
         public void Awake()
         {
             var rb = GetComponent<Rigidbody2D>();
             var spRen = GetComponent<SpriteRenderer>();
+            
+            var boxCollider = GetComponent<BoxCollider2D>();
+            var groundCheckBoxSize = new Vector2(boxCollider.size.x, boxCollider.size.y / 2);
             
             var slimePhysics = new SlimePhysics(
                 rb,
@@ -32,7 +38,8 @@ namespace Character.Slime.Controller
                 minJumpForce,
                 maxJumpForce,
                 groundChecker,
-                GroundCheckRadius,
+                GroundCheckDistance,
+                groundCheckBoxSize,
                 groundLayer
                 );
 
@@ -50,6 +57,11 @@ namespace Character.Slime.Controller
         public void OnDisable()
         {
             _inputHandler.Disable();
+        }
+
+        public void Update()
+        {
+            
         }
 
         public void FixedUpdate()

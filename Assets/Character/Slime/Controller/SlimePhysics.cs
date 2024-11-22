@@ -6,10 +6,12 @@ namespace Character.Slime.Controller
     public class SlimePhysics : CharacterPhysics
     {
         private Transform GroundChecker { get; set; }
-        private float GroundCheckRadius { get; set; }
+        
+        private float GroundCheckDistance { get; set; }
+        private Vector2 GroundCheckBoxSize { get; set; }
         private LayerMask GroundLayer { get; set; }
             
-        public bool IsGrounded => Physics2D.Raycast(GroundChecker.position, Vector2.down, GroundCheckRadius, GroundLayer);
+        public bool IsGrounded => Physics2D.BoxCast(GroundChecker.position, GroundCheckBoxSize, 0f, Vector2.down, GroundCheckDistance, GroundLayer);
 
         public SlimePhysics(
             Rigidbody2D rbody,
@@ -20,7 +22,8 @@ namespace Character.Slime.Controller
             float minJumpForce,
             float maxJumpForce,
             Transform groundChecker,
-            float groundCheckRadius,
+            float groundCheckDistance,
+            Vector2 groundCheckBoxSize,
             LayerMask groundLayer
             ) : base(
             rbody,
@@ -33,7 +36,8 @@ namespace Character.Slime.Controller
             )
         {
             this.GroundChecker = groundChecker;
-            this.GroundCheckRadius = groundCheckRadius;
+            this.GroundCheckDistance = groundCheckDistance;
+            this.GroundCheckBoxSize = groundCheckBoxSize;
             this.GroundLayer = groundLayer;
         }
     }
