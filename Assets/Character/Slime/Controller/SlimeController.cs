@@ -16,20 +16,23 @@ namespace Character.Slime.Controller
         [SerializeField] private float minJumpForce;
         [SerializeField] private float maxJumpForce;
         
-        [Header("GroundCheckSettings")]
-        private const float GroundCheckDistance = 0.1f;
-        [SerializeField] private Transform groundChecker;
-        [SerializeField] private LayerMask groundLayer;
+        [Header("PlatformCheckSettings")]
+        private const float PlatformCheckDistance = 0.1f;
+        private const float PlatformCheckerOffset = 0.25f;
+        [SerializeField] private LayerMask platformLayer;
 
         public void Awake()
         {
+            var tform = GetComponent<Transform>();
             var rb = GetComponent<Rigidbody2D>();
             var spRen = GetComponent<SpriteRenderer>();
             
             var boxCollider = GetComponent<BoxCollider2D>();
-            var groundCheckBoxSize = new Vector2(boxCollider.size.x, boxCollider.size.y / 2);
+            var verticalCheckBoxSize = new Vector2(boxCollider.size.x, boxCollider.size.y / 2);
+            var horizontalCheckBoxSize = new Vector2(boxCollider.size.x / 2, boxCollider.size.y);
             
             var slimePhysics = new SlimePhysics(
+                tform,
                 rb,
                 spRen,
                 moveForce,
@@ -37,10 +40,11 @@ namespace Character.Slime.Controller
                 jumpCoefficient,
                 minJumpForce,
                 maxJumpForce,
-                groundChecker,
-                GroundCheckDistance,
-                groundCheckBoxSize,
-                groundLayer
+                PlatformCheckDistance,
+                PlatformCheckerOffset,
+                verticalCheckBoxSize,
+                horizontalCheckBoxSize,
+                platformLayer
                 );
 
             _inputHandler = new SlimeInputHandler(slimePhysics);

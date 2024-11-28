@@ -4,6 +4,7 @@ namespace Character
 {
     public abstract class CharacterPhysics
     {
+        public Transform Tform;
         public Rigidbody2D Rbody { get; set; }
         public SpriteRenderer SpRenderer { get; set; }
         
@@ -14,6 +15,7 @@ namespace Character
         public float MaxJumpForce { get; set; }
 
         protected CharacterPhysics(
+            Transform tfrom,
             Rigidbody2D rbody,
             SpriteRenderer spRenderer,
             float moveForce,
@@ -23,6 +25,7 @@ namespace Character
             float maxJumpForce
             )
         {
+            this.Tform = tfrom;
             this.Rbody = rbody;
             this.SpRenderer = spRenderer;
             
